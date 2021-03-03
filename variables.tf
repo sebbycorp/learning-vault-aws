@@ -29,7 +29,3 @@ variable "vault2_name" {
 variable "consul0_name" {
   type = string
 }
-variable "extconsul0_name" {
-  type = string
-
-}
