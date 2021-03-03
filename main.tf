@@ -32,15 +32,15 @@ module "consulserver" {
   source          = "./consulserver"
   instance_count  = "1"
   consul_sg       = module.network.consul_sg
-  private_subnets  = module.network.private_subnets
+  private_subnets = module.network.private_subnets
   public_subnets  = module.network.public_subnets
 
   instance_type   = "t2.micro"
   vol_size        = "10"
   key_name        = "consul"
   public_key_path = "C:/Users/sebbycorp/.ssh/consul.pub"
-  host_zone_id        = var.host_zone_id
-  consul0_name         = var.consul0_name
+  host_zone_id    = var.host_zone_id
+  consul0_name    = var.consul0_name
   extconsul0_name = var.extconsul0_name
 
 }

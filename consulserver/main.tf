@@ -35,10 +35,10 @@ resource "aws_instance" "maniak_consul" {
   }
   user_data = templatefile("${path.module}/consul.tpl",
     {
-     consul_name = "c${count.index}.maniak.academy"
-     CONSUL_VERSION ="1.9.3"
-     CONSUL_URL = "https://releases.hashicorp.com/consul"
-     local_ipv4="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
+      consul_name    = "c${count.index}.maniak.academy"
+      CONSUL_VERSION = "1.9.3"
+      CONSUL_URL     = "https://releases.hashicorp.com/consul"
+      local_ipv4     = "$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
 
     }
   )

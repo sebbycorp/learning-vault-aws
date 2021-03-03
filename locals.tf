@@ -76,7 +76,7 @@ locals {
           protocol    = "tcp"
           cidr_blocks = [local.vpc_cidr]
         }
-         HTTPext = {
+        HTTPext = {
           from        = 8500
           to          = 8500
           protocol    = "tcp"

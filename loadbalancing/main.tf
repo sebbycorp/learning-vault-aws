@@ -22,8 +22,8 @@ resource "aws_lb_target_group" "vault-tg" {
     unhealthy_threshold = var.lb_healthy_threshold
     timeout             = var.lb_timeout
     interval            = var.lb_interval
-    path = "/v1/sys/health"
-    protocol = "https"
+    path                = "/v1/sys/health"
+    protocol            = "https"
   }
 }
 

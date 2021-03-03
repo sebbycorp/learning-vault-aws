@@ -36,10 +36,10 @@ resource "aws_instance" "maniak_vault" {
   }
   user_data = templatefile("${path.module}/vault-config.tpl",
     {
-     vault_name = "sv${count.index}.maniak.academy"
-     VAULT_VERSION ="1.6.3"
-     VAULT_URL = "https://releases.hashicorp.com/vault"
-     local_ipv4="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
+      vault_name    = "sv${count.index}.maniak.academy"
+      VAULT_VERSION = "1.6.3"
+      VAULT_URL     = "https://releases.hashicorp.com/vault"
+      local_ipv4    = "$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
     }
   )
   tags = {
