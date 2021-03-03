@@ -23,7 +23,7 @@ resource "aws_lb_target_group" "vault-tg" {
     timeout             = var.lb_timeout
     interval            = var.lb_interval
     path                = "/v1/sys/health"
-    protocol            = "https"
+    protocol            = "HTTPS"
   }
 }
 
