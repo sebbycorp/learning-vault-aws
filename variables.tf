@@ -26,9 +26,33 @@ variable "vault1_name" {
 variable "vault2_name" {
   type = string
 }
-variable "consul0_name" {
+variable "consul1_name" {
   type = string
 }
-variable "extconsul0_name" {
+variable "consul2_name" {
+  type = string
+}
+variable "consul3_name" {
+  type = string
+}
+variable "consul4_name" {
+  type = string
+}
+variable "consul5_name" {
+  type = string
+}
+variable "extconsul1_name" {
+  type = string
+}
+variable "extconsul2_name" {
+  type = string
+}
+variable "extconsul3_name" {
+  type = string
+}
+variable "extconsul4_name" {
+  type = string
+}
+variable "extconsul5_name" {
   type = string
 }

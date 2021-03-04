@@ -5,6 +5,7 @@ local_ipv4="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
 
 #Utils
 sudo apt-get install unzip
+sudo hostnamectl set-hostname ${consul_name} 
 
 #Download Consul
 
@@ -53,15 +54,34 @@ EOF
 
 #Create config dir
 sudo mkdir --parents /etc/consul.d
-sudo touch /etc/consul.d/ui.json
+sudo touch /etc/consul.d/consul.hcl
 sudo chown --recursive consul:consul /etc/consul.d
-sudo chmod 640 /etc/consul.d/ui.json
+sudo chmod 640 /etc/consul.d/consul.hcl
 
-sudo cat << EOF > /etc/consul.d/ui.json
+sudo cat << EOF > /etc/consul.d/consul.hcl
 {
+  "server": true,
+  "node_name": ${consul_name},
+  "datacenter": "us-east-1",
+  "data_dir": "/opt/consul/data",
+  "bind_addr": "0.0.0.0",
+  "client_addr": "0.0.0.0",
+  "domain": "maniak.academy",
+  "advertise_addr": ${local_ipv4},
+  "bootstrap_expect": 3,
+  "retry_join": ["provider=aws tag_key=Environment-Name tag_value=consul-cluster region=us-east-1"],
+  "ui": true,
+  "log_level": "INFO",
+  "enable_syslog": true,
+
  "addresses": {
   "http": "0.0.0.0"
   }
+  acl = {
+  enabled = true
+  default_policy = "allow"
+  enable_token_persistence = true
+}
 }
 EOF
 

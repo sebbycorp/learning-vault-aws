@@ -8,6 +8,7 @@ resource "random_shuffle" "az_list" {
   result_count = var.max_subnets
 }
 
+
 resource "random_integer" "random" {
   min = 1
   max = 100
@@ -28,33 +29,38 @@ resource "aws_vpc" "maniak_vpc" {
 
 
 
-resource "aws_subnet" "maniak_public_subnet" {
-  count                   = var.public_sn_count
+resource "aws_subnet" "maniak_public_subnet1" {
   vpc_id                  = aws_vpc.maniak_vpc.id
-  cidr_block              = var.public_cidrs[count.index]
+  cidr_block              = var.public_subnet1
   map_public_ip_on_launch = true
-  availability_zone       = random_shuffle.az_list.result[count.index]
+  availability_zone     = var.availability_zone1
 
   tags = {
-    Name = "maniak_public_${count.index + 1}"
+    Name = "maniak_public_subnet1"
   }
 }
-
-resource "aws_subnet" "maniak_private_subnet" {
-  count                   = var.private_sn_count
+resource "aws_subnet" "maniak_public_subnet2" {
   vpc_id                  = aws_vpc.maniak_vpc.id
-  cidr_block              = var.private_cidrs[count.index]
-  map_public_ip_on_launch = false
-  availability_zone       = random_shuffle.az_list.result[count.index]
+  cidr_block              = var.public_subnet2
+  map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone2
 
   tags = {
-    Name = "maniak_private_${count.index + 1}"
+    Name = "maniak_public_subnet2"
   }
 }
+resource "aws_subnet" "maniak_public_subnet3" {
+  vpc_id                  = aws_vpc.maniak_vpc.id
+  cidr_block              = var.public_subnet3
+  map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone3
 
-resource "aws_route_table_association" "maniak_public_assoc" {
-  count          = var.public_sn_count
-  subnet_id      = aws_subnet.maniak_public_subnet.*.id[count.index]
+  tags = {
+    Name = "maniak_public_subnet3"
+  }
+}
+resource "aws_main_route_table_association" "maniak_public_assoc" {
+  vpc_id         = aws_vpc.maniak_vpc.id
   route_table_id = aws_route_table.maniak_public_rt.id
 }
 
@@ -65,7 +71,6 @@ resource "aws_internet_gateway" "maniak_internet_gateway" {
     Name = "maniak_igw"
   }
 }
-
 
 resource "aws_route_table" "maniak_public_rt" {
   vpc_id = aws_vpc.maniak_vpc.id
