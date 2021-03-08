@@ -28,3 +28,6 @@ vault2_name     = "<value>"
 consul0_name    = "<value>"
 extconsul0_name = "<value>"
 ```
+
+
+scp -i consul consul-agent-ca.pem dc1-server-consul-0.pem dc1-server-consul-0-key.pem ubuntu@consul2.maniak.academy:/etc/consul.d/

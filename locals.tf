@@ -52,6 +52,12 @@ locals {
           protocol    = "tcp"
           cidr_blocks = [var.access_ip]
         }
+                sshlocal = {
+          from        = 22
+          to          = 22
+          protocol    = "tcp"
+          cidr_blocks = [local.vpc_cidr]
+        }
         nginx = {
           from        = 80
           to          = 80

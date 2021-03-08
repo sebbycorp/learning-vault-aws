@@ -42,46 +42,72 @@ sudo chown --recursive consul:consul /opt/consul
 #Create Systemd Config
 sudo cat << EOF > /etc/systemd/system/consul.service
 [Unit]
-Description=Consul
+Description="HashiCorp Consul - A service mesh solution"
 Documentation=https://www.consul.io/
+Requires=network-online.target
+After=network-online.target
+ConditionFileNotEmpty=/etc/consul.d/server.hcl
+
 [Service]
-ExecStart=/usr/bin/consul agent -server -ui -data-dir=/temp/consul -bootstrap-expect=1 -node=vault -bind=${local_ipv4} -config-dir=/etc/consul.d/
-ExecReload=/bin/kill -HUP $MAINPID
+Type=notify
+User=consul
+Group=consul
+ExecStart=/usr/bin/consul server -config-dir=/etc/consul.d/
+ExecReload=/bin/kill --signal HUP $MAINPID
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
 LimitNOFILE=65536
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
 #Create config dir
 sudo mkdir --parents /etc/consul.d
-sudo touch /etc/consul.d/consul.hcl
+sudo touch /etc/consul.d/server.hcl
 sudo chown --recursive consul:consul /etc/consul.d
-sudo chmod 640 /etc/consul.d/consul.hcl
+sudo chmod 640 /etc/consul.d/server.hcl
 
-sudo cat << EOF > /etc/consul.d/consul.hcl
+sudo cat << EOF > /etc/consul.d/server.hcl
 {
   "server": true,
   "node_name": ${consul_name},
-  "datacenter": "us-east-1",
-  "data_dir": "/opt/consul/data",
-  "bind_addr": "0.0.0.0",
-  "client_addr": "0.0.0.0",
-  "domain": "maniak.academy",
   "advertise_addr": ${local_ipv4},
+  "bind_addr": "{$local_ipv4}",
   "bootstrap_expect": 3,
-  "retry_join": ["provider=aws tag_key=Environment-Name tag_value=consul-cluster region=us-east-1"],
-  "ui": true,
-  "log_level": "INFO",
-  "enable_syslog": true,
+  "client_addr": "0.0.0.0",
+  "datacenter": "us-east-1",
+  "data_dir": "/opt/consul/",
+  "domain": "maniak.academy",
+  "enable_script_checks": true,
+    "dns_config": {
+        "enable_truncate": true,
+        "only_passing": true
+    },
+    "bootstrap_expect": 5,
+    "enable_syslog": true,
+    "encrypt": "9oxhbo+jUUi34tUe1XxdsgvfKK4TkmY3A=",
+    "leave_on_terminate": true,
+    "log_level": "INFO",
+    "rejoin_after_leave": true,
+    "retry_join": [
+     "consul1.maniak.academy",
+     "consul2.maniak.academy",
+     "consul3.maniak.academy",
+     "consul4.maniak.academy",
+     "consul5.maniak.academy"
 
- "addresses": {
-  "http": "0.0.0.0"
-  }
-  acl = {
-  enabled = true
-  default_policy = "allow"
-  enable_token_persistence = true
-}
+    ],
+    "server": true,
+    "start_join": [
+     "consul1.maniak.academy",
+     "consul2.maniak.academy",
+     "consul3.maniak.academy",
+     "consul4.maniak.academy",
+     "consul5.maniak.academy"
+    ],
+    "ui": true
 }
 EOF
 
