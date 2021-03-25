@@ -36,10 +36,10 @@ resource "aws_instance" "maniak_vault1" {
   user_data = templatefile("${path.module}/vault-config.tpl",
     {
       vault_name    = "vault1.maniak.academy"
-      VAULT_VERSION = "1.6.3"
+      VAULT_VERSION = "1.7.0"
       VAULT_URL     = "https://releases.hashicorp.com/vault"
       local_ipv4    = "$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)"
-           CONSUL_URL="https://releases.hashicorp.com/consul"
+      CONSUL_URL="https://releases.hashicorp.com/consul"
       CONSUL_VERSION ="1.9.3"
     }
   )

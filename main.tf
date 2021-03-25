@@ -31,29 +31,29 @@ module "network" {
 
 # }
 
-module "consulserver" {
-  source          = "./consulserver"
-  instance_count  = "3"
-  consul_sg       = module.network.consul_sg
-  public_subnet1 = module.network.public_subnet1
-  public_subnet2 = module.network.public_subnet2
-  public_subnet3 = module.network.public_subnet3
-  instance_type   = "t2.micro"
-  vol_size        = "10"
-  key_name        = "consul"
-  public_key_path = "C:/Users/sebbycorp/.ssh/consul.pub"
-  host_zone_id    = var.host_zone_id
-  consul1_name    = var.consul1_name
-  consul2_name    = var.consul2_name
-  consul3_name    = var.consul3_name
-  consul4_name    = var.consul4_name
-  consul5_name    = var.consul5_name
-  extconsul1_name = var.extconsul1_name
-  extconsul2_name = var.extconsul2_name
-    extconsul3_name = var.extconsul3_name
-  extconsul4_name = var.extconsul4_name
-  extconsul5_name = var.extconsul5_name
-}
+# module "consulserver" {
+#   source          = "./consulserver"
+#   instance_count  = "3"
+#   consul_sg       = module.network.consul_sg
+#   public_subnet1 = module.network.public_subnet1
+#   public_subnet2 = module.network.public_subnet2
+#   public_subnet3 = module.network.public_subnet3
+#   instance_type   = "t2.micro"
+#   vol_size        = "10"
+#   key_name        = "consul"
+#   public_key_path = "C:/Users/sebbycorp/.ssh/consul.pub"
+#   host_zone_id    = var.host_zone_id
+#   consul1_name    = var.consul1_name
+#   consul2_name    = var.consul2_name
+#   consul3_name    = var.consul3_name
+#   consul4_name    = var.consul4_name
+#   consul5_name    = var.consul5_name
+#   extconsul1_name = var.extconsul1_name
+#   extconsul2_name = var.extconsul2_name
+#     extconsul3_name = var.extconsul3_name
+#   extconsul4_name = var.extconsul4_name
+#   extconsul5_name = var.extconsul5_name
+# }
 
 module "vault" {
   source              = "./vault"

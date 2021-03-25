@@ -90,7 +90,7 @@ fullchain.pem
 #Install vault
 
 
-export VAULT_VERSION="1.6.0"
+export VAULT_VERSION="1.7.0"
 export VAULT_URL="https://releases.hashicorp.com/vault"
 
 curl --silent --remote-name \
